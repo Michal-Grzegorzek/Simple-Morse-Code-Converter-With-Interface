@@ -4,7 +4,7 @@ from PIL import Image,ImageTk
 
 
 
-######################## CHARTS ########################
+# ####################### CHARTS ####################### #
 
 MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
                     'C':'-.-.', 'D':'-..', 'E':'.',
@@ -22,30 +22,47 @@ MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
                     '?':'..--..', '/':'-..-.', '-':'-....-',
                     '(':'-.--.', ')':'-.--.-'}
 
+# ####################### METHODS DECRYPT - ENCRYPT ####################### #
 
 
+def encrypt():
+    string_to_convert = (website_entry.get())
+    lst = []
+    lst.extend(string_to_convert.upper())
+    string_after_convert = ''
+    for a in range(len(lst)):
+        for i in MORSE_CODE_DICT:
+            if i == lst[a]:
+                string_after_convert = f'{string_after_convert}{MORSE_CODE_DICT[i]} '
 
 
+    email_entry.delete(0, END)
+    email_entry.insert(0, string_after_convert)
+
+    print(string_after_convert)
 
 
+def decrypt():
+    string_to_convert = (website_entry.get())
+    lst = []
+    lst.extend(string_to_convert)
+    string_after_split = string_to_convert.split()
+    string_after_convert = ''
+    for a in range(len(string_after_split)):
+        for i in MORSE_CODE_DICT:
+            if MORSE_CODE_DICT[i] == string_after_split[a]:
+                string_after_convert = f'{string_after_convert}{i}'
 
-
-
-
-
-
-
-
-
-
-
+    print(string_after_convert)
 
 # ---------------------------- UI SETUP ------------------------------- #
+
+
 window = Tk()
 window.title("Morse Code Converter")
 window.config(padx=50, pady=50)
 
-#Load an image in the script
+# Load an image in the script
 img = (Image.open("morse-logo.png"))
 
 #Resize the Image using resize method
@@ -86,15 +103,42 @@ email_entry.insert(0, "michal.grzegorzek33@gmail.com")
 
 search_button = Menubutton(text="Encrypt" )
 search_button.grid(column=2, row=1, sticky="EW" )
-
+d = 'g'
 ################
 font1=('Times',18,'normal')
 mb = Menubutton(window, text='Encrypt - Decrypt', relief='raised', width=15)
 mb.grid(row=1, column=2, padx=3)
 mb.menu = Menu(mb)
 mb['menu'] = mb.menu
-mb.menu.add_command(label="Encrypt")
-mb.menu.add_command(label='Decrypt', command=window.quit)
+mb.menu.add_command(label="Encrypt", command=encrypt)
+mb.menu.add_command(label='Decrypt', command=decrypt)
+
+
+####Choice?
+
+# choice=None
+# def choice1():
+#     global choice
+#     choice='Choice 1'
+# def choice2():
+#     global choice
+#     choice='Choice 2'
+#
+# def start(choice):
+#     if choice=='Choice 1':
+#         print('1')
+#     elif choice=='Choice 2':
+#         print('2')
+#     # else:
+#     #     #do something else since they didn't press either
+#
+#
+# Choice_1_Button=Button(window, text='Choice 1', command=choice1) #what should it do?
+# Choice_1_Button.grid(column=0, row=3)
+# Choice_2_Button=Button(window, text='Choice 2', command=choice2)
+# Choice_2_Button.grid(column=1, row=3)
+# Start_Button=Button(window, text='Start', command=start)
+# Start_Button.grid(column=2, row=3)
 
 
 window.mainloop()
