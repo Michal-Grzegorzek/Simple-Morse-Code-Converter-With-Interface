@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from PIL import Image,ImageTk
+from PIL import Image, ImageTk
 
 
 
@@ -26,34 +26,42 @@ MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
 
 
 def encrypt():
-    string_to_convert = (website_entry.get())
-    lst = []
-    lst.extend(string_to_convert.upper())
-    string_after_convert = ''
-    for a in range(len(lst)):
-        for i in MORSE_CODE_DICT:
-            if i == lst[a]:
-                string_after_convert = f'{string_after_convert}{MORSE_CODE_DICT[i]} '
+    string_to_convert = (string_entry.get())
 
+    if len(string_to_convert) == 0:
+        messagebox.showinfo(title="Empty filed", message="Please don't leave empty filed.")
 
-    email_entry.delete(0, END)
-    email_entry.insert(0, string_after_convert)
+    else:
+        lst = []
+        lst.extend(string_to_convert.upper())
+        string_after_convert = ''
+        for a in range(len(lst)):
+            for i in MORSE_CODE_DICT:
+                if i == lst[a]:
+                    string_after_convert = f'{string_after_convert}{MORSE_CODE_DICT[i]} '
 
-    print(string_after_convert)
+        result_entry.delete(0, END)
+        result_entry.insert(0, string_after_convert)
 
 
 def decrypt():
-    string_to_convert = (website_entry.get())
-    lst = []
-    lst.extend(string_to_convert)
-    string_after_split = string_to_convert.split()
-    string_after_convert = ''
-    for a in range(len(string_after_split)):
-        for i in MORSE_CODE_DICT:
-            if MORSE_CODE_DICT[i] == string_after_split[a]:
-                string_after_convert = f'{string_after_convert}{i}'
+    string_to_convert = (string_entry.get())
 
-    print(string_after_convert)
+    if len(string_to_convert) == 0:
+        messagebox.showinfo(title="Empty filed", message="Please don't leave empty filed.")
+
+    else:
+        lst = []
+        lst.extend(string_to_convert)
+        string_after_split = string_to_convert.split()
+        string_after_convert = ''
+        for a in range(len(string_after_split)):
+            for i in MORSE_CODE_DICT:
+                if MORSE_CODE_DICT[i] == string_after_split[a]:
+                    string_after_convert = f'{string_after_convert}{i}'
+
+        result_entry.delete(0, END)
+        result_entry.insert(0, string_after_convert)
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -65,7 +73,7 @@ window.config(padx=50, pady=50)
 # Load an image in the script
 img = (Image.open("morse-logo.png"))
 
-#Resize the Image using resize method
+# Resize the Image using resize method
 resized_image = img.resize((300, 210))
 new_image = ImageTk.PhotoImage(resized_image)
 
@@ -74,38 +82,22 @@ canvas = Canvas(width=200, height=200)
 canvas.create_image(100, 110, image=new_image)
 canvas.grid(column=1, row=0)
 
-website_label = Label(text="Enter the string:")
-website_label.grid(column=0, row=1)
+string_label = Label(text="Enter the string:")
+string_label.grid(column=0, row=1)
 
-website_entry = Entry(width=32)
-website_entry.grid(column=1, row=1, sticky="W")
-website_entry.focus()
+string_entry = Entry(width=32)
+string_entry.grid(column=1, row=1, sticky="W")
+string_entry.focus()
 
 
-email_label = Label(text="Translation result:")
-email_label.grid(column=0, row=2)
+result_label = Label(text="Translation result:")
+result_label.grid(column=0, row=2)
 
-email_entry = Entry(width=35)
-email_entry.grid(column=1, row=2, columnspan=2, sticky="EW")
-email_entry.insert(0, "michal.grzegorzek33@gmail.com")
+result_entry = Entry(width=35)
+result_entry.grid(column=1, row=2, columnspan=2, sticky="EW")
 
-# password_label = Label(text="Password:")
-# password_label.grid(column=0, row=3)
-#
-# password_entry = Entry(width=32)
-# password_entry.grid(column=1, row=3, sticky="W")
-#
-# password_button = Button(text="Generate Password",)
-# password_button.grid(column=2, row=3, sticky="EW",)
-#
-# add_button = Button(text="Add", width=36,)
-# add_button.grid(column=1, row=4, columnspan=2, sticky="EW")
+# Set up Menubutton
 
-search_button = Menubutton(text="Encrypt" )
-search_button.grid(column=2, row=1, sticky="EW" )
-d = 'g'
-################
-font1=('Times',18,'normal')
 mb = Menubutton(window, text='Encrypt - Decrypt', relief='raised', width=15)
 mb.grid(row=1, column=2, padx=3)
 mb.menu = Menu(mb)
@@ -114,7 +106,7 @@ mb.menu.add_command(label="Encrypt", command=encrypt)
 mb.menu.add_command(label='Decrypt', command=decrypt)
 
 
-####Choice?
+# ###Choice?
 
 # choice=None
 # def choice1():
@@ -139,6 +131,5 @@ mb.menu.add_command(label='Decrypt', command=decrypt)
 # Choice_2_Button.grid(column=1, row=3)
 # Start_Button=Button(window, text='Start', command=start)
 # Start_Button.grid(column=2, row=3)
-
 
 window.mainloop()
